@@ -76,63 +76,63 @@
   const tokenDisplayEl = document.getElementById("tokenDisplay");
 
   function handleCallbackResponse(response) {
-  console.log("Response received:", response);
-  
-  // Show loading state
-  loadingEl.style.display = "block";
-  errorEl.style.display = "none";
-  successEl.style.display = "none";
-  tokenDisplayEl.style.display = "none";
-  
-  // Prepare form data
-  const formData = new FormData();
-  formData.append("token", response.credential);
-  
-  // Send token to your Django API
-  fetch(`${api}/google_login/`, {
-    method: "POST",
-    body: formData,
-  })
-  .then(res => {
-    if (!res.ok) {
-      throw new Error("Login failed. Please try again.");
-    }
-    return res.json();
-  })
-  .then(data => {
-    console.log("Login successful:", data);
+    console.log("Response received:", response);
     
-    // Display success message
-    successEl.textContent = "Login successful! Tokens received:";
-    successEl.style.display = "block";
+    // Show loading state
+    loadingEl.style.display = "block";
+    errorEl.style.display = "none";
+    successEl.style.display = "none";
+    tokenDisplayEl.style.display = "none";
     
-    // Display tokens in the div
-    const tokenInfo = {
-      tokens: data.tokens,
-      full_response: data
-    };
+    // Prepare form data
+    const formData = new FormData();
+    formData.append("token", response.credential);
     
-    tokenDisplayEl.innerHTML = `
-      <strong>Access Token:</strong><br>
-      ${tokenInfo.tokens || 'Not found'}<br><br>
-      <strong>Full Response:</strong><br>
-      ${JSON.stringify(data, null, 2)}
-    `;
-    tokenDisplayEl.style.display = "block";
-  })
-  .catch(err => {
-    console.error("Login error:", err);
-    errorEl.textContent = "An unexpected error occurred. Please try again.";
-    errorEl.style.display = "block";
-  })
-  .finally(() => {
-    loadingEl.style.display = "none";
-  });
-}
+    // Send token to your Django API
+    fetch(`${api}/google_login/`, {
+      method: "POST",
+      body: formData,
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error("Login failed. Please try again.");
+      }
+      return res.json();
+    })
+    .then(data => {
+      console.log("Login successful:", data);
+      
+      // Display success message
+      successEl.textContent = "Login successful! Tokens received:";
+      successEl.style.display = "block";
+      
+      // Display tokens in the div
+      const tokenInfo = {
+        tokens: data.tokens,
+        full_response: data
+      };
+      
+      tokenDisplayEl.innerHTML = `
+        <strong>Access Token:</strong><br>
+        ${tokenInfo.tokens || 'Not found'}<br><br>
+        <strong>Full Response:</strong><br>
+        ${JSON.stringify(data, null, 2)}
+      `;
+      tokenDisplayEl.style.display = "block";
+    })
+    .catch(err => {
+      console.error("Login error:", err);
+      errorEl.textContent = "An unexpected error occurred. Please try again.";
+      errorEl.style.display = "block";
+    })
+    .finally(() => {
+      loadingEl.style.display = "none";
+    });
+  }
     window.onload = () => {
   if (window.google && window.google.accounts) {
     window.google.accounts.id.initialize({
-      client_id: "YOUR_GOOGLE_CLIENT_ID", // Replace with your actual client ID
+      client_id: "474686137040-2v5bgvh1seqp23ee2cdirnv6ot56va7j.apps.googleusercontent.com", // Replace with your actual client ID
       callback: handleCallbackResponse
     });
     
