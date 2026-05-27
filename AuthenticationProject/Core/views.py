@@ -25,14 +25,15 @@ def google_auth(request):
             google_requests.Request(), 
             settings.GOOGLE_OAUTH_CLIENT_ID
         )
+        print(id_info)
         email = id_info.get("email")
         first_name = id_info.get("given_name", "")
         last_name = id_info.get("family_name", "")
-        profile_pic_url = id_info.get("picture", "")
+        # profile_pic_url = id_info.get("picture", "")
         user, created = User.objects.get_or_create(email=email, defaults={
             "first_name": first_name,
             "last_name": last_name,
-            "profile_pic_url": profile_pic_url
+            # "profile_pic_url": profile_pic_url
         })
         if created:
             user.set_unusable_password()
